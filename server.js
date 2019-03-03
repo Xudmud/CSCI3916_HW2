@@ -33,6 +33,7 @@ router.route('/post')
         }
     );
 
+/*
 router.route('/postjwt')
     .post(authJwtController.isAuthenticated, function (req, res) {
             console.log(req.body);
@@ -78,6 +79,6 @@ router.post('/signin', function(req, res) {
             }
         };
 });
-
+*/
 app.use('/', router);
 app.listen(process.env.PORT || 8080);
