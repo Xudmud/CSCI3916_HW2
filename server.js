@@ -69,7 +69,6 @@ router.post('/signup', function(req, res) {
 router.all('/signup', function(req, res) {
     console.log(req.body);
     res.status(405).send({success: false, msg: 'Unsupported method.'});
-    res.send(req.body);
 });
 
 //Define POST method for signin
@@ -98,7 +97,6 @@ router.post('/signin', function(req, res) {
 router.all('/signin', function(req, res) {
     console.log(req.body);
     res.status(405).send({success: false, msg: 'Unsupported method.'});
-    res.send(req.body);
 });
 
 //Define GET method for movies
@@ -119,7 +117,6 @@ router.put('/movies', function(req, res) {
     if(!user) {
         console.log(req.body);
         res.status(401).send({success: false, msg: 'Authentication failed. User or password incorrect.'});
-        res.send(req.body);
     }
     else {
         if(req.body.password == user.password) {
@@ -127,18 +124,30 @@ router.put('/movies', function(req, res) {
         }
         else {
             res.status(401).send({success: false, msg: 'Authentication failed. User or password incorrect.'});
-            res.send(req.body);
         }
     }
 });
 
 //Define DELETE method for movies
-
+router.delete('/movies', function(req, res) {
+    //Authentication required
+    if(!iuser {
+        console.log(req.body);
+            res.status(401).send({success: false, msg: 'Authentication failed. User or password incorrect.'});
+    }
+    else {
+        if(req.body.password == user.password) {
+            res.json({status: 200, msg: 'Deleted a movie.', headers: req.headers, query: req.query, env: process.env.UNIQUE_KEY});
+        }
+        else {
+            res.status(401).send({success: false, msg: 'Authentication failed. User or password incorrect.'});
+        }
+    }
+});
 
 //All other methods should return 405 unsupported method
 router.all('/movies', function(req, res) {
     res.status(405).send({success: false, msg: 'Unsupported method.'});
-    res.send(body);
 });
 app.use('/', router);
 app.listen(process.env.PORT || 8080);
