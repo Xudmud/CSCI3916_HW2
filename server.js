@@ -56,7 +56,7 @@ router.route('/postjwt')
 
 router.post('/signup', function(req, res) {
     console.log("Username: ",req.body.username,"\nPassword: ",req.body.password);
-    console.log(body);
+    console.log(req.body);
     if (!req.body.username || !req.body.password) {
         res.json({success: false, msg: 'Please pass username and password.'});
     } else {
