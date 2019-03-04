@@ -39,6 +39,7 @@ router.route('/post')
         }
     )*/
     .post(function(req, res) {
+      console.log(req.body);
       var user = db.findOne(req.body.username);
       if (!user) {
         res.status(401).send({success: false, msg: 'Authentication failed.'});
@@ -50,7 +51,7 @@ router.route('/post')
           res.send(req.body);
         }
         else {
-          fes.status(401).send({success: false, msg: 'Authentication failed.'});
+          res.status(401).send({success: false, msg: 'Authentication failed.'});
         }
       }
     })
@@ -149,14 +150,19 @@ router.route('/movies')
 
     //Define DELETE method for movies
     .delete(authController.isAuthenticated, function(req, res) {
-        //Authentication required. Basic auth for DELETE
-        //Using a generic "user or password incorrect" to mimic what an actual site would do.
-        console.log(req.body);
-        res = res.status(200);
-        if(req.get('Content-Type')) {
-            res.json({status: 200, msg: 'Deleted a movie.', headers: req.headers, query: req.query, env: process.env.UNIQUE_KEY});
-
+      console.log(req.body);
+      var user = db.findOne(req.body.username);
+      if (!user) {
+        res.status(401).send({success: false, msg: 'Authentication failed.'});
+      }
+      else {
+        if(req.body.password == user.password) {
+          res.json({status: 200, msg: 'Deleted a movie.', headers: req.headers, query: req.query, env: process.env.UNIQUE_KEY});
         }
+        else {
+          res.status(401).send({success: false, msg: 'Authentication failed.'});
+        }
+      }
     });
 
 //All other methods should return 405 unsupported method
