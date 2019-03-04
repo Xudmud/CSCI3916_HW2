@@ -40,6 +40,7 @@ router.route('/post')
     .all(function(req, res) {
         console.log(req.body);
         res.status(405).send({success: false, msg: 'Unsupported method.'});
+    });
 
 router.route('/postjwt')
     .post(authJwtController.isAuthenticated, function (req, res) {
@@ -122,10 +123,9 @@ router.route('/movies')
         console.log(req.body)
         if(req.get('Content-Type')) {
             res.json({status: 200, msg: 'Saved a new movie.', headers: req.headers, query: req.query, env: process.env.UNIQUE_KEY});
-            }
-    
         }
-    )
+    
+    })
 
     //Define DELETE method for movies
     .delete(authController.isAuthenticated, function(req, res) {
@@ -143,5 +143,6 @@ router.route('/movies')
 router.all('/movies', function(req, res) {
     res.status(405).send({success: false, msg: 'Unsupported method.'});
 });
+
 app.use('/', router);
 app.listen(process.env.PORT || 8080);
