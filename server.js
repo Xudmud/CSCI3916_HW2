@@ -98,7 +98,7 @@ router.all('/signin', function(req, res) {
 });
 
 //Define GET method for movies
-router.get('/movies', function(req, res) {
+//router.get('/movies', function(req, res) {
     
 //Define POST method for movies
 //Define PUT method for movies
