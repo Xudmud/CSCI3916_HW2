@@ -69,7 +69,7 @@ router.post('/signup', function(req, res) {
 });
 
 router.all('/signup', function(req, res) {
-    res.status(405).send({success: false, msg: 'Unsupported method.');
+    res.status(405).send({success: false, msg: 'Unsupported method.'});
 }
 
 router.post('/signin', function(req, res) {
