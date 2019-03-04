@@ -20,13 +20,9 @@ app.use(bodyParser.text({
 app.use(passport.initialize());
 
 var router = express.Router();
-
-router.get('/', function(req, res) {
-    res.send('hello world');
-});
-
-router.post('/', function (req, res) {
-    res.send('POST request detected!');
+//Generic GET and POST for root.
+router.all('/', function(req, res) {
+    res = res.status(403).send({success: false, msg: 'Requests not permitted on the root page.'});
 });
 
 router.route('/post')
@@ -53,7 +49,7 @@ router.route('/postjwt')
             res.send(req.body);
         }
     );
-
+//Define POST method for signup
 router.post('/signup', function(req, res) {
     if (!req.body.username || !req.body.password) {
         res.json({success: false, msg: 'Please pass username and password.'});
@@ -68,14 +64,18 @@ router.post('/signup', function(req, res) {
     }
 });
 
+//All other methods should return 405 unsupported method
 router.all('/signup', function(req, res) {
     res.status(405).send({success: false, msg: 'Unsupported method.'});
+    res.send(body);
 });
 
+//Define POST method for signin
 router.post('/signin', function(req, res) {
 
         var user = db.findOne(req.body.username);
-
+        //In a production environment, a generic "wrong credentials" message would be more secure.
+        //But for testing purposes it's good to be able to differentiate wrong user vs wrong password
         if (!user) {
             res.status(401).send({success: false, msg: 'Authentication failed. User not found.'});
         }
@@ -92,5 +92,22 @@ router.post('/signin', function(req, res) {
         };
 });
 
+//All other methods should return 405 unsupported method
+router.all('/signin', function(req, res) {
+    res.status(405).send({success: false, msg: 'Unsupported method.'});
+});
+
+//Define GET method for movies
+router.get('/movies', function(req, res) {
+    
+//Define POST method for movies
+//Define PUT method for movies
+//Define DELETE method for movies
+
+//All other methods should return 405 unsupported method
+router.all('/movies', function(req, res) {
+    res.status(405).send({success: false, msg: 'Unsupported method.'});
+    res.send(body);
+});
 app.use('/', router);
 app.listen(process.env.PORT || 8080);
