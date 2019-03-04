@@ -55,8 +55,6 @@ router.route('/postjwt')
     );
 
 router.post('/signup', function(req, res) {
-    console.log("Username: ",req.body.username,"\nPassword: ",req.body.password);
-    console.log(req.body);
     if (!req.body.username || !req.body.password) {
         res.json({success: false, msg: 'Please pass username and password.'});
     } else {
@@ -69,6 +67,10 @@ router.post('/signup', function(req, res) {
         res.json({success: true, msg: 'Successful created new user.'});
     }
 });
+
+router.all('/signup', function(req, res) {
+    res.status(405).send({success: false, msg: 'Unsupported method.');
+}
 
 router.post('/signin', function(req, res) {
 
