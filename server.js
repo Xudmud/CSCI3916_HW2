@@ -164,9 +164,10 @@ router.route('/movies')
         }
       }
     })
-    .all(function(req.res) {
-      res.status(405).send({success: false, msg: 'Unsupported methld.'});
-    })
+
+    .*(function(req.res) {
+      res.status(405).send({success: false, msg: 'Unsupported method.'});
+    });
 
 
 app.use('/', router);
