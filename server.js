@@ -149,7 +149,7 @@ router.route('/movies')
     })
 
     //Define DELETE method for movies
-    .delete(authController.isAuthenticated, function(req, res) {
+    .delete(function(req, res) {
       console.log(req.body);
       var user = db.findOne(req.body.username);
       if (!user) {
