@@ -111,7 +111,7 @@ router.post('/movies', function(req, res) {
 });
 
 //Define PUT method for movies
-router.put('/movies').authiJwtController.isAuthenticated, function(req, res) {
+router.put('/movies'.authJwtController.isAuthenticated, function(req, res) {
     //Authentication required for this. JWT for PUT.
     console.log(req.body)
     if(req.get('Content-Type')) {
