@@ -111,26 +111,19 @@ router.post('/movies', function(req, res) {
 });
 
 //Define PUT method for movies
-router.put('/movies', function(req, res) {
-    //Authentication required for this. For PUT and DELETE, generic "authentication failed" message.
-    var user = db.findOne(req.body.username);
-    if(!user) {
-        console.log(req.body);
-        res.status(401).send({success: false, msg: 'Authentication failed. User or password incorrect.'});
-    }
-    else {
-        if(req.body.password == user.password) {
-            res.json({status: 200, msg: 'Saved a new movie.', headers: req.headers, query: req.query, env: process.env.UNIQUE_KEY});
-        }
-        else {
-            res.status(401).send({success: false, msg: 'Authentication failed. User or password incorrect.'});
+router.put('/movies', authController.isAuthenticated, function(req, res) {
+    //Authentication required for this. JWT for PUT.
+    console.log(req.body)
+    if(req.get('Content-Type')) {
+        res.json({status: 200, msg: 'Saved a new movie.', headers: req.headers, query: req.query, env: process.env.UNIQUE_KEY});
         }
     }
 });
 
 //Define DELETE method for movies
 router.delete('/movies', function(req, res) {
-    //Authentication required
+    //Authentication required. Basic auth for DELETE
+    //Using a generic "user or password incorrect" to mimic what an actual site would do.
     var user = db.findOne(req.body.username);
     if(!user) {
         console.log(req.body);
