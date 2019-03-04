@@ -113,7 +113,7 @@ router.post('/movies', function(req, res) {
 });
 
 //Define PUT method for movies
-router.put('/movies', function(req, res {
+router.put('/movies', function(req, res) {
     //Authentication required for this. For PUT and DELETE, generic "authentication failed" message.
     var user = db.findOne(req.body.username);
     if(!user) {
