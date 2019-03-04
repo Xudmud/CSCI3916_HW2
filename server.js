@@ -128,9 +128,6 @@ router.all('/signin', function(req, res) {
 
 router.route('/movies')
 //Define GET method for movies
-    .all(function(req.res) {
-      res.status(405).send({success: false, msg: 'Unsupported method.'});
-    })
     .get(function(req, res) {
         res.json({status: 200, msg: 'Get the list of movies', headers: req.headers, query: req.query, env: process.env.UNIQUE_KEY});
     })
@@ -165,9 +162,11 @@ router.route('/movies')
           res.status(401).send({success: false, msg: 'Authentication failed.'});
         }
       }
+    })
+
+    .all(function(req, res) {
+      res.status(405).send({success: false, msg: 'Unsupported method.'});
     });
-
-
 
 
 app.use('/', router);
