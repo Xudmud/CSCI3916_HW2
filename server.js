@@ -21,6 +21,10 @@ app.use(passport.initialize());
 
 var router = express.Router();
 
+app.get('/', function(req, res) {
+    res.send('hello world')
+});
+
 router.route('/post')
     .post(authController.isAuthenticated, function (req, res) {
             console.log(req.body);
