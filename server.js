@@ -117,7 +117,7 @@ router.put('/movies'.authController.isAuthenticated, function(req, res) {
     if(req.get('Content-Type')) {
         res.json({status: 200, msg: 'Saved a new movie.', headers: req.headers, query: req.query, env: process.env.UNIQUE_KEY});
         }
-    }
+    
 });
 
 //Define DELETE method for movies
