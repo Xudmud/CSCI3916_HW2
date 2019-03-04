@@ -56,6 +56,8 @@ router.route('/postjwt')
     .all(function(req, res) {
         console.log(req.body);
         res.status(405).send({success: false, msg: 'Unsupported method.'});
+    });
+
 //Define POST method for signup
 router.post('/signup', function(req, res) {
     if (!req.body.username || !req.body.password) {
