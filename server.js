@@ -21,21 +21,13 @@ app.use(passport.initialize());
 
 var router = express.Router();
 
-/*app.get('/', function(req, res) {
+router.get('/', function(req, res) {
     res.send('hello world');
 });
 
-app.post('/', function (req, res) {
+router.post('/', function (req, res) {
     res.send('POST request detected!');
-});*/
-
-router.route('/')
-    .get(function(req, res) {
-        res.send('Hello world!');
-    })
-    .post(function (req, res) {
-        res.send('POST detected!'):
-    })
+});
 
 router.route('/post')
     .post(authController.isAuthenticated, function (req, res) {
