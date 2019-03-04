@@ -8,8 +8,8 @@ db = require('./db')(); //global hack
 var jwt = require('jsonwebtoken');
 
 var app = express();
-/* app.use(bodyParser.json()); */
-/* app.use(bodyParser.urlencoded({ extended: false })); */
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(bodyParser.text({
     type: function(req) {
