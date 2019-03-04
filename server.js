@@ -22,6 +22,7 @@ app.use(passport.initialize());
 var router = express.Router();
 //Generic GET and POST for root.
 router.all('/', function(req, res) {
+    console.log(req.body);
     res = res.status(403).send({success: false, msg: 'Requests not permitted on the root page.'});
 });
 
@@ -66,8 +67,9 @@ router.post('/signup', function(req, res) {
 
 //All other methods should return 405 unsupported method
 router.all('/signup', function(req, res) {
+    console.log(req.body);
     res.status(405).send({success: false, msg: 'Unsupported method.'});
-    res.send(body);
+    res.send(req.body);
 });
 
 //Define POST method for signin
@@ -94,15 +96,41 @@ router.post('/signin', function(req, res) {
 
 //All other methods should return 405 unsupported method
 router.all('/signin', function(req, res) {
+    console.log(req.body);
     res.status(405).send({success: false, msg: 'Unsupported method.'});
+    res.send(req.body);
 });
 
 //Define GET method for movies
-//router.get('/movies', function(req, res) {
-    
+router.get('/movies', function(req, res) {
+    res.json({status: 200, msg: 'Get the list of movies', headers: req.headers, query: req.query, env: process.env.UNIQUE_KEY});
+});
+
 //Define POST method for movies
+router.post('/movies', function(req, res) {
+    console.log(req.body);
+    res.json({status: 200, msg: 'Created a new movie', headers: req.headers, query: req.query, env: process.env.UNIQUE_KEY});
+});
+
 //Define PUT method for movies
+router.put('/movies', function(req, res {
+    //Authentication required for this. For PUT and DELETE, generic "authentication failed" message.
+    var user = db.findOne(req.body.username);
+    if(!user) {
+        console.log(req.body);
+        res.status(401).send({success: false, msg: 'Authentication failed. User or password incorrect.'});
+        res.send(req.body);
+    }
+    else {
+        if(req.body.password == user.password) {
+            res.json({status: 200, msg: 'Saved a new movie.', headers: req.headers, query: req.query, env: process.env.UNIQUE_KEY});
+        }
+        else {
+            res.status(401).send({success: false, msg: 'Authentication failed. User or password incorrect.'});
+            res.send(req.body);
+
 //Define DELETE method for movies
+
 
 //All other methods should return 405 unsupported method
 router.all('/movies', function(req, res) {
