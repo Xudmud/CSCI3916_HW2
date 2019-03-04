@@ -36,8 +36,10 @@ router.route('/post')
             }
             res.send(req.body);
         }
-    );
-
+    )
+    .all(function(req, res) {
+        console.log(req.body);
+        res.status(405).send({success: false, msg: 'Unsupported method.'});
 
 router.route('/postjwt')
     .post(authJwtController.isAuthenticated, function (req, res) {
@@ -49,7 +51,10 @@ router.route('/postjwt')
             }
             res.send(req.body);
         }
-    );
+    )
+    .all(function(req, res) {
+        console.log(req.body);
+        res.status(405).send({success: false, msg: 'Unsupported method.'});
 //Define POST method for signup
 router.post('/signup', function(req, res) {
     if (!req.body.username || !req.body.password) {
@@ -99,45 +104,40 @@ router.all('/signin', function(req, res) {
     res.status(405).send({success: false, msg: 'Unsupported method.'});
 });
 
+router.route('/movies')
 //Define GET method for movies
-router.get('/movies', function(req, res) {
-    res.json({status: 200, msg: 'Get the list of movies', headers: req.headers, query: req.query, env: process.env.UNIQUE_KEY});
-});
+    .get(function(req, res) {
+        res.json({status: 200, msg: 'Get the list of movies', headers: req.headers, query: req.query, env: process.env.UNIQUE_KEY});
+    })
 
-//Define POST method for movies
-router.post('/movies', function(req, res) {
+    //Define POST method for movies
+    .post(function(req, res) {
     console.log(req.body);
     res.json({status: 200, msg: 'Created a new movie', headers: req.headers, query: req.query, env: process.env.UNIQUE_KEY});
-});
+    })
 
-//Define PUT method for movies
-router.put('/movies'.authJwtController.isAuthenticated, function(req, res) {
-    //Authentication required for this. JWT for PUT.
-    console.log(req.body)
-    if(req.get('Content-Type')) {
-        res.json({status: 200, msg: 'Saved a new movie.', headers: req.headers, query: req.query, env: process.env.UNIQUE_KEY});
-        }
+    //Define PUT method for movies
+    .put(.authJwtController.isAuthenticated, function(req, res) {
+        //Authentication required for this. JWT for PUT.
+        console.log(req.body)
+        if(req.get('Content-Type')) {
+            res.json({status: 200, msg: 'Saved a new movie.', headers: req.headers, query: req.query, env: process.env.UNIQUE_KEY});
+            }
     
-});
+        }
+    )
 
-//Define DELETE method for movies
-router.delete('/movies', function(req, res) {
-    //Authentication required. Basic auth for DELETE
-    //Using a generic "user or password incorrect" to mimic what an actual site would do.
-    var user = db.findOne(req.body.username);
-    if(!user) {
+    //Define DELETE method for movies
+    .delete(authController.isAuthenticated, function(req, res) {
+        //Authentication required. Basic auth for DELETE
+        //Using a generic "user or password incorrect" to mimic what an actual site would do.
         console.log(req.body);
-            res.status(401).send({success: false, msg: 'Authentication failed. User or password incorrect.'});
-    }
-    else {
-        if(req.body.password == user.password) {
+        res = res.status(200);
+        if(req.get('Content-Type')) {
             res.json({status: 200, msg: 'Deleted a movie.', headers: req.headers, query: req.query, env: process.env.UNIQUE_KEY});
+        
         }
-        else {
-            res.status(401).send({success: false, msg: 'Authentication failed. User or password incorrect.'});
-        }
-    }
-});
+    });
 
 //All other methods should return 405 unsupported method
 router.all('/movies', function(req, res) {
