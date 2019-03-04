@@ -27,16 +27,34 @@ router.all('/', function(req, res) {
 });
 
 router.route('/post')
-    .post(authController.isAuthenticated, function (req, res) {
+/*    .post(authController.isAuthenticated, function (req, res) {
             console.log(req.body);
             res = res.status(200);
             if (req.get('Content-Type')) {
                 console.log("Content-Type: " + req.get('Content-Type'));
                 res = res.type(req.get('Content-Type'));
             }
-            res.send(req.body);
+            var jres = getJSONObject(req);
+            res.json(jres);
         }
-    )
+    )*/
+    .post(function(req, res)) {
+      var user = db.findOne(req.body.username);
+      if (!user) {
+        res.status(401).send({success: false, msg: 'Authentication failed.'});
+      }
+      else {
+        if(req.body.password == user.password) {
+          res = res.status(200);
+          res = res.type(req.get('Content-Type'));
+          res.send(req.body);
+        }
+        else {
+          fes.status(401).send({success: false, msg: 'Authentication failed.'});
+        }
+      }
+    }
+    
     .all(function(req, res) {
         console.log(req.body);
         res.status(405).send({success: false, msg: 'Unsupported method.'});
@@ -126,7 +144,7 @@ router.route('/movies')
         if(req.get('Content-Type')) {
             res.json({status: 200, msg: 'Saved a new movie.', headers: req.headers, query: req.query, env: process.env.UNIQUE_KEY});
         }
-    
+
     })
 
     //Define DELETE method for movies
@@ -137,7 +155,7 @@ router.route('/movies')
         res = res.status(200);
         if(req.get('Content-Type')) {
             res.json({status: 200, msg: 'Deleted a movie.', headers: req.headers, query: req.query, env: process.env.UNIQUE_KEY});
-        
+
         }
     });
 
