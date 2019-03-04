@@ -163,12 +163,11 @@ router.route('/movies')
           res.status(401).send({success: false, msg: 'Authentication failed.'});
         }
       }
-    });
+    })
+    .all(function(req.res) {
+      res.status(405).send({success: false, msg: 'Unsupported methld.'});
+    })
 
-//All other methods should return 405 unsupported method
-router.all('/movies', function(req, res) {
-    res.status(405).send({success: false, msg: 'Unsupported method.'});
-});
 
 app.use('/', router);
 app.listen(process.env.PORT || 8080);
