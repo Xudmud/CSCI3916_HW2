@@ -38,7 +38,7 @@ router.route('/post')
             res.json(jres);
         }
     )*/
-    .post(function(req, res)) {
+    .post(function(req, res) {
       var user = db.findOne(req.body.username);
       if (!user) {
         res.status(401).send({success: false, msg: 'Authentication failed.'});
@@ -53,8 +53,8 @@ router.route('/post')
           fes.status(401).send({success: false, msg: 'Authentication failed.'});
         }
       }
-    }
-    
+    })
+
     .all(function(req, res) {
         console.log(req.body);
         res.status(405).send({success: false, msg: 'Unsupported method.'});
