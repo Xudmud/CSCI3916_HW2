@@ -128,6 +128,9 @@ router.put('/movies', function(req, res) {
         else {
             res.status(401).send({success: false, msg: 'Authentication failed. User or password incorrect.'});
             res.send(req.body);
+        }
+    }
+});
 
 //Define DELETE method for movies
 
