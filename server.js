@@ -27,7 +27,7 @@ router.all('/', function(req, res) {
 });
 
 router.route('/post')
-/*    .post(authController.isAuthenticated, function (req, res) {
+    .post(authController.isAuthenticated, function (req, res) {
             console.log(req.body);
             res = res.status(200);
             if (req.get('Content-Type')) {
@@ -37,8 +37,8 @@ router.route('/post')
             var jres = getJSONObject(req);
             res.json(jres);
         }
-    )*/
-    .post(function(req, res) {
+    )
+/*    .post(function(req, res) {
       console.log(req.body);
       var user = db.findOne(req.body.username);
       if (!user) {
@@ -55,7 +55,7 @@ router.route('/post')
         }
       }
     })
-
+*/
     .all(function(req, res) {
         console.log(req.body);
         res.status(405).send({success: false, msg: 'Unsupported method.'});
@@ -149,20 +149,16 @@ router.route('/movies')
 
     //Define DELETE method for movies
     .delete(function(req, res) {
-      console.log(req.body);
-      var user = db.findOne(req.body.username);
-      if (!user) {
-        res.status(401).send({success: false, msg: 'Authentication failed.'});
-      }
-      else {
-        if(req.body.password == user.password) {
-          res.json({status: 200, msg: 'Deleted a movie.', headers: req.headers, query: req.query, env: process.env.UNIQUE_KEY});
+        console.log(req.body);
+        res = res.status(200);
+        if (req.get('Content-Type')) {
+            console.log("Content-Type: " + req.get('Content-Type'));
+            res.json({status: 200, msg: 'Deleted a movie.', headers: req.headers, query: req.query, env: process.env.UNIQUE_KEY})
         }
-        else {
-          res.status(401).send({success: false, msg: 'Authentication failed.'});
-        }
-      }
-    })
+        var jres = getJSONObject(req);
+        res.json(jres);
+    }
+  )
 
     .all(function(req, res) {
       res.status(405).send({success: false, msg: 'Unsupported method.'});
