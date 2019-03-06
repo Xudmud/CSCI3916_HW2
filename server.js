@@ -34,8 +34,7 @@ router.route('/post')
                 console.log("Content-Type: " + req.get('Content-Type'));
                 res = res.type(req.get('Content-Type'));
             }
-            var jres = getJSONObject(req);
-            res.json(jres);
+            res.send(req.body);
         }
     )
 /*    .post(function(req, res) {
